@@ -28,7 +28,7 @@ function App() {
 				// Create particles with a fixed size range
 				pts.forEach((pt, i) => {
 					const particle = new Particle(pt).size(
-						i === 0 ? 30 : 5 + Math.random() * 40 
+						i === 0 ? 40 : 5 + Math.random() * 40 
 					);
 					particle.hit(Num.randomRange(-50, 50), Num.randomRange(-25, 25));
 					world.add(particle);
