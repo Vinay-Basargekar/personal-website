@@ -12,18 +12,29 @@ function App() {
 		space.add({
 			start: () => {
 				world = new World(space.innerBound, 1, 0);
-				const pts = Create.distributeRandom(space.innerBound, 200);
 
-				// Create particles and assign random impulses
+				// Adjust the number of particles based on screen width
+				let particleCount;
+				if (space.size.x > 1200) {
+					particleCount = 200; // Larger screens
+				} else if (space.size.x > 800) {
+					particleCount = 100; // Medium screens
+				} else {
+					particleCount = 50; // Small screens
+				}
+
+				const pts = Create.distributeRandom(space.innerBound, particleCount);
+
+				// Create particles with a fixed size range
 				pts.forEach((pt, i) => {
 					const particle = new Particle(pt).size(
-						i === 0 ? 30 : 3 + (Math.random() * space.size.x) / 35
+						i === 0 ? 30 : 5 + Math.random() * 40 
 					);
 					particle.hit(Num.randomRange(-50, 50), Num.randomRange(-25, 25));
 					world.add(particle);
 				});
 
-				world.particle(0).lock = true;
+				world.particle(0).lock = true; // Lock the main particle in place
 			},
 
 			animate: (time, ftime) => {
@@ -72,7 +83,7 @@ function App() {
 				id="ptCanvas"
 				style={{ display: "block", width: "100%", height: "100%" }}
 			/>
-			<div className="absolute md:bottom-10 bottom-5 md:left-10 left-5 z-10 w-screen">
+			<div className="absolute md:bottom-10 bottom-20 md:left-10 left-5 z-10 w-screen">
 				<Card />
 			</div>
 		</div>
